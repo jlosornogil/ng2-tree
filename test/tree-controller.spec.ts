@@ -9,6 +9,7 @@ import { TreeController } from '../src/tree-controller';
 import { NodeMenuService } from '../src/menu/node-menu.service';
 import { NodeMenuComponent } from '../src/menu/node-menu.component';
 import { NodeDraggableService } from '../src/draggable/node-draggable.service';
+import { FileDraggableService } from '../src/draggable/file-draggable.service';
 import { NodeDraggableDirective } from '../src/draggable/node-draggable.directive';
 import { NodeEditableDirective } from '../src/editable/node-editable.directive';
 import * as EventUtils from '../src/utils/event.utils';
@@ -66,7 +67,7 @@ describe('TreeController', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, TreeInternalComponent, TreeComponent, NodeEditableDirective, NodeMenuComponent, NodeDraggableDirective, SafeHtmlPipe],
-      providers: [NodeMenuService, NodeDraggableService, TreeService, SafeHtmlPipe]
+      providers: [NodeMenuService, NodeDraggableService, FileDraggableService, TreeService, SafeHtmlPipe]
     });
 
     fixture = TestBed.createComponent(TestComponent);

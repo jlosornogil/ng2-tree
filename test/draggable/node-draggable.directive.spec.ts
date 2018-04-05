@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Component, ElementRef } from '@angular/core';
 import { NodeDraggableDirective } from '../../src/draggable/node-draggable.directive';
 import { NodeDraggableService } from '../../src/draggable/node-draggable.service';
+import { FileDraggableService } from '../../src/draggable/file-draggable.service';
 import { CapturedNode } from '../../src/draggable/captured-node';
 import { NodeDraggableEvent } from '../../src/draggable/draggable.events';
 import { Tree } from '../../src/tree';
@@ -28,7 +29,7 @@ describe('NodeDraggableDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [NodeDraggableDirective, TestComponent],
-      providers: [NodeDraggableService]
+      providers: [NodeDraggableService, FileDraggableService]
     });
 
     fixture = TestBed.createComponent(TestComponent);

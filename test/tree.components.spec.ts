@@ -8,6 +8,7 @@ import { TreeService } from '../src/tree.service';
 import { NodeMenuService } from '../src/menu/node-menu.service';
 import { NodeMenuComponent } from '../src/menu/node-menu.component';
 import { NodeDraggableService } from '../src/draggable/node-draggable.service';
+import { FileDraggableService } from '../src/draggable/file-draggable.service';
 import { NodeDraggableDirective } from '../src/draggable/node-draggable.directive';
 import { NodeEditableDirective } from '../src/editable/node-editable.directive';
 import { SafeHtmlPipe } from '../src/utils/safe-html.pipe';
@@ -29,7 +30,7 @@ describe('TreeComponent (the one that wraps TreeInternalComponent)', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, TreeInternalComponent, TreeComponent, NodeEditableDirective, NodeMenuComponent, NodeDraggableDirective, SafeHtmlPipe],
-      providers: [NodeMenuService, NodeDraggableService, TreeService, SafeHtmlPipe]
+      providers: [NodeMenuService, NodeDraggableService, FileDraggableService, TreeService, SafeHtmlPipe]
     });
 
     fixture = TestBed.createComponent(TestComponent);

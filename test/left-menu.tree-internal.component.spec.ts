@@ -8,6 +8,7 @@ import { TreeService } from '../src/tree.service';
 import { NodeMenuService } from '../src/menu/node-menu.service';
 import { NodeMenuComponent } from '../src/menu/node-menu.component';
 import { NodeDraggableService } from '../src/draggable/node-draggable.service';
+import { FileDraggableService } from '../src/draggable/file-draggable.service';
 import { NodeDraggableDirective } from '../src/draggable/node-draggable.directive';
 import { NodeEditableDirective } from '../src/editable/node-editable.directive';
 import { NodeMenuAction } from '../src/menu/menu.events';
@@ -138,7 +139,7 @@ describe('LeftMenu-TreeInternalComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent, TreeInternalComponent, TreeComponent, NodeEditableDirective, NodeMenuComponent, NodeDraggableDirective, SafeHtmlPipe],
-      providers: [NodeMenuService, NodeDraggableService, TreeService]
+      providers: [NodeMenuService, NodeDraggableService, FileDraggableService, TreeService]
     });
 
     fixture = TestBed.createComponent(TestComponent);

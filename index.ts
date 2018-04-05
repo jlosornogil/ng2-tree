@@ -18,7 +18,8 @@ import {
   NodeSelectedEvent,
   NodeExpandedEvent,
   NodeCollapsedEvent,
-  NodeDestructiveEvent
+  NodeDestructiveEvent,
+  FilesDroppedEvent
 } from './src/tree.events';
 
 import { TreeComponent } from './src/tree.component';
@@ -40,6 +41,7 @@ export {
   NodeExpandedEvent,
   NodeCollapsedEvent,
   NodeDestructiveEvent,
+  FilesDroppedEvent,
   TreeComponent,
   TreeModule
 };

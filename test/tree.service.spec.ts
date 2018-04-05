@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TreeService } from '../src/tree.service';
 import { Subject } from 'rxjs/Rx';
 import { NodeDraggableService } from '../src/draggable/node-draggable.service';
+import { FileDraggableService } from '../src/draggable/file-draggable.service';
 import { Tree } from '../src/tree';
 import { TreeController } from '../src/tree-controller';
 import { TreeInternalComponent } from '../src/tree-internal.component';
@@ -24,7 +25,7 @@ let draggableService;
 describe('TreeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TreeService, NodeDraggableService]
+      providers: [TreeService, NodeDraggableService, FileDraggableService]
     });
 
     treeService = TestBed.get(TreeService);

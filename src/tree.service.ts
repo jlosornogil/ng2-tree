@@ -5,7 +5,8 @@ import {
   NodeMovedEvent,
   NodeRemovedEvent,
   NodeRenamedEvent,
-  NodeSelectedEvent
+  NodeSelectedEvent,
+  FilesDroppedEvent
 } from './tree.events';
 import { RenamableNode } from './tree.types';
 import { Tree } from './tree';
@@ -13,7 +14,8 @@ import { TreeController } from './tree-controller';
 import { Observable, Subject } from 'rxjs/Rx';
 import { ElementRef, Inject, Injectable } from '@angular/core';
 import { NodeDraggableService } from './draggable/node-draggable.service';
-import { NodeDraggableEvent } from './draggable/draggable.events';
+import { NodeDraggableEvent, FileDraggableEvent } from './draggable/draggable.events';
+import { FileDraggableService } from './draggable/file-draggable.service';
 
 @Injectable()
 export class TreeService {
@@ -24,11 +26,14 @@ export class TreeService {
   public nodeSelected$: Subject<NodeSelectedEvent> = new Subject<NodeSelectedEvent>();
   public nodeExpanded$: Subject<NodeExpandedEvent> = new Subject<NodeExpandedEvent>();
   public nodeCollapsed$: Subject<NodeCollapsedEvent> = new Subject<NodeCollapsedEvent>();
+  public filesDropped$: Subject<FilesDroppedEvent> = new Subject<FilesDroppedEvent>();
 
   private controllers: Map<string | number, TreeController> = new Map();
 
-  public constructor(@Inject(NodeDraggableService) private nodeDraggableService: NodeDraggableService) {
+  public constructor(@Inject(NodeDraggableService) private nodeDraggableService: NodeDraggableService,
+                    @Inject(FileDraggableService) private fileDraggableService: FileDraggableService) {
     this.nodeRemoved$.subscribe((e: NodeRemovedEvent) => e.node.removeItselfFromParent());
+    this.fileDraggableService.draggableFileEvents$.subscribe((e: FileDraggableEvent) => this.fireFilesDropped(e.captured.fileList, e.captured.tree));
   }
 
   public unselectStream(tree: Tree): Observable<any> {
@@ -69,6 +74,10 @@ export class TreeService {
 
   private fireNodeCollapsed(tree: Tree): void {
     this.nodeCollapsed$.next(new NodeCollapsedEvent(tree));
+  }
+
+  private fireFilesDropped(files: FileList, tree: Tree): void {
+    this.filesDropped$.next(new FilesDroppedEvent(files, tree));
   }
 
   public draggedStream(tree: Tree, element: ElementRef): Observable<NodeDraggableEvent> {

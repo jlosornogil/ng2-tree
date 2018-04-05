@@ -2,6 +2,8 @@ import { Directive, ElementRef, Input, Inject, Renderer, OnDestroy, OnInit } fro
 import { NodeDraggableService } from './node-draggable.service';
 import { CapturedNode } from './captured-node';
 import { Tree } from '../tree';
+import { FileDraggableService } from './file-draggable.service';
+import { CapturedFiles } from './captured-file';
 
 @Directive({
   selector: '[nodeDraggable]'
@@ -20,6 +22,7 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
 
   public constructor(@Inject(ElementRef) public element: ElementRef,
                      @Inject(NodeDraggableService) private nodeDraggableService: NodeDraggableService,
+                     @Inject(FileDraggableService) private fileDraggableService: FileDraggableService,
                      @Inject(Renderer) private renderer: Renderer) {
     this.nodeNativeElement = element.nativeElement;
   }
@@ -75,11 +78,11 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
 
     this.removeClass('over-drop-target');
 
-    if (!this.isDropPossible(e)) {
+    if (!this.isDropPossible(e) && !this.isFileDrop(e)) {
       return false;
-    }
-
-    if (this.nodeDraggableService.getCapturedNode()) {
+    } else if (this.isFileDrop(e)) {
+      return this.notifyThatFileWasDropped(e);
+    } else if (this.nodeDraggableService.getCapturedNode()) {
       return this.notifyThatNodeWasDropped();
     }
   }
@@ -89,6 +92,10 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
     return capturedNode
       && capturedNode.canBeDroppedAt(this.nodeDraggable)
       && this.containsElementAt(e);
+  }
+
+  private isFileDrop(e: DragEvent): boolean {
+    return e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0;
   }
 
   private handleDragEnd(e: DragEvent): any {
@@ -113,5 +120,9 @@ export class NodeDraggableDirective implements OnDestroy, OnInit {
 
   private notifyThatNodeWasDropped(): void {
     this.nodeDraggableService.fireNodeDragged(this.nodeDraggableService.getCapturedNode(), this.nodeDraggable);
+  }
+
+  private notifyThatFileWasDropped(e: DragEvent): void {
+    this.fileDraggableService.fireFilesDragged(new CapturedFiles(e.dataTransfer.files, this.tree), this.nodeDraggable);
   }
 }

@@ -54,3 +54,9 @@ export class NodeCollapsedEvent extends NodeEvent {
     super(node);
   }
 }
+
+export class FilesDroppedEvent extends NodeEvent {
+  public constructor(public files: FileList, parentNode: Tree) {
+    super(parentNode);
+  }
+}
